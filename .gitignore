@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# SQLite DBs and local data
+expense_tracker/data/
+*.db
+*.sqlite
+
+# Build / packaging
+build/
+dist/
+*.spec
+*.egg-info/
+package_root/
+package_root_rpm/
+*.AppDir/
+
+# Editor configs
+.vscode/
+.idea/
+
+# Logs
+*.log
