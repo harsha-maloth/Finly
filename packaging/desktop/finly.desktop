@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Finly
+Comment=Minimal, private finance tracking
+Exec=/opt/finly/finly
+Icon=finly
+Terminal=false
+Type=Application
+Categories=Utility;Finance;
