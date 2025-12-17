@@ -11,18 +11,36 @@ Features
 - Export all transactions to CSV
 - Local SQLite backend (no cloud, no tracking)
 
-Quick start
+
+Installation
+
+Choose the installer for your distribution and install it. Download the `.deb` for Debian/Ubuntu or the `.rpm` for Fedora/openSUSE.
+
+Debian/Ubuntu:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r expense_tracker/requirements.txt
-python -m expense_tracker.main
+sudo dpkg -i finly_0.1.0_amd64.deb
+# or use apt to fix deps: sudo apt-get install -f
 ```
 
-Data storage
+Fedora/openSUSE:
 
-Finly stores data in `expense_tracker/data/expenses.db`. This file is local; back it up manually if you want to transfer your data.
+```bash
+sudo rpm -Uvh finly-0.1.0-1.x86_64.rpm
+# or use dnf: sudo dnf install ./finly-0.1.0-1.x86_64.rpm
+```
+
+After installation you should find Finly in your desktop environment (Applications menu). You can also run the shipped executable directly:
+
+```bash
+/opt/finly/finly
+```
+
+Data storage and backups
+
+Finly stores data locally in a SQLite database under your user data directory (for packaged installs the app copies a starter DB to your XDG data location, commonly `~/.local/share/finly/expenses.db`). Back up that file if you want to keep or migrate your data.
+
+If you prefer to run from source (developer mode), see the `expense_tracker` directory. Running from source will also create or use a local `expense_tracker/data/expenses.db`.
 
 Disclaimer
 
