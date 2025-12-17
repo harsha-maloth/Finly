@@ -1,11 +1,3 @@
-"""
-PySide6 GUI views for Finly.
-
-MainWindow contains a QTableWidget to show transactions and buttons to Add/Edit/Delete,
-manage categories, navigate months, show monthly summary, and export CSV.
-
-Creator: Maloth Harsha
-"""
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtCore import Qt, QDate
 import typing
@@ -55,7 +47,6 @@ class TransactionDialog(QtWidgets.QDialog):
         layout.addWidget(btns)
 
         if data:
-            # populate fields for editing
             d = QDate.fromString(data.get("date"), "yyyy-MM-dd")
             if d.isValid():
                 self.date_edit.setDate(d)
@@ -64,7 +55,6 @@ class TransactionDialog(QtWidgets.QDialog):
             idx = self.type_combo.findText(t)
             if idx >= 0:
                 self.type_combo.setCurrentIndex(idx)
-            # select category by id
             cat_id = data.get("category_id")
             if cat_id is not None:
                 i = self.category_combo.findData(cat_id)
@@ -113,7 +103,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(central)
         layout = QtWidgets.QVBoxLayout(central)
 
-        # Top controls: month selector and summary
         top_h = QtWidgets.QHBoxLayout()
         self.prev_month_btn = QtWidgets.QPushButton("◀")
         self.next_month_btn = QtWidgets.QPushButton("▶")
@@ -135,16 +124,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
         layout.addLayout(top_h)
 
-        # Transactions table
         self.table = QtWidgets.QTableWidget(0, 6)
         self.table.setHorizontalHeaderLabels(["ID", "Date", "Amount", "Type", "Category", "Description"]) 
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.table.hideColumn(0)  # hide ID column
+        self.table.hideColumn(0)
         layout.addWidget(self.table)
 
-        # Buttons
         btn_h = QtWidgets.QHBoxLayout()
         self.add_btn = QtWidgets.QPushButton("Add")
         self.edit_btn = QtWidgets.QPushButton("Edit")
@@ -159,16 +146,13 @@ class MainWindow(QtWidgets.QMainWindow):
         btn_h.addWidget(self.export_btn)
         layout.addLayout(btn_h)
 
-        # status bar
         self.status = self.statusBar()
 
-        # Menu: Help -> About
         menubar = self.menuBar()
         help_menu = menubar.addMenu("Help")
         self.about_action = QtGui.QAction("About Finly", self)
         help_menu.addAction(self.about_action)
 
-        # initialize month to current
         today = QtCore.QDate.currentDate()
         self.current_year = today.year()
         self.current_month = today.month()
@@ -180,7 +164,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 class AboutDialog(QtWidgets.QDialog):
-    """About dialog with mission, values, and author info."""
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("About Finly")

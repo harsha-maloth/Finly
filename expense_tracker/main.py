@@ -1,10 +1,3 @@
-"""
-Application entry point for Finly.
-
-Run: python -m expense_tracker.main
-
-Creator: Maloth Harsha
-"""
 import sys
 from PySide6 import QtWidgets
 from .controllers import Controller

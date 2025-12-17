@@ -1,14 +1,7 @@
-"""
-Controller layer for Finly (connects views and models).
-
-All UI text updates are branded to Finly. Core logic unchanged.
-Creator: Maloth Harsha
-"""
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 from .models import Database
 from .views import MainWindow, TransactionDialog, CategoryDialog
-from datetime import datetime
 import os
 
 
@@ -29,14 +22,11 @@ class Controller:
         w.export_btn.clicked.connect(self.export_csv)
         w.prev_month_btn.clicked.connect(self.prev_month)
         w.next_month_btn.clicked.connect(self.next_month)
-        # About dialog
         try:
             w.about_action.triggered.connect(self.show_about)
         except Exception:
-            # about_action may not exist in older versions of the UI; ignore safely
             pass
 
-    # Data helpers
     def load_categories(self):
         cats = self.db.get_categories()
         return [(c["id"], c["name"]) for c in cats]
@@ -67,13 +57,11 @@ class Controller:
         w.expense_label.setText(f"Expenses: {expense:.2f}")
         w.balance_label.setText(f"Balance: {balance:.2f}")
 
-    # CRUD operations
     def add_transaction(self):
         cats = self.load_categories()
         dlg = TransactionDialog(self.window, categories=cats)
         if dlg.exec() == QtWidgets.QDialog.Accepted:
             data = dlg.get_data()
-            # basic validation
             if data["amount"] <= 0:
                 QtWidgets.QMessageBox.warning(self.window, "Validation", "Amount must be greater than zero.")
                 return
@@ -84,7 +72,6 @@ class Controller:
         sel = self.window.table.selectedItems()
         if not sel:
             return None
-        # ID is in hidden column 0 of selected row
         row = sel[0].row()
         item = self.window.table.item(row, 0)
         return int(item.text())
@@ -94,7 +81,6 @@ class Controller:
         if tx_id is None:
             QtWidgets.QMessageBox.information(self.window, "Edit", "Please select a transaction to edit.")
             return
-        # fetch transaction row
         rows = self.db.conn.execute("SELECT * FROM transactions WHERE id = ?", (tx_id,)).fetchone()
         if not rows:
             return
@@ -124,7 +110,6 @@ class Controller:
             self.refresh()
 
     def manage_categories(self):
-        # Simple inline manager: shows a dialog listing categories with Add/Edit/Delete
         dlg = QtWidgets.QDialog(self.window)
         dlg.setWindowTitle("Manage Categories — Finly")
         dlg.resize(400, 300)
