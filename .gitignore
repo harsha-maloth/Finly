@@ -22,6 +22,8 @@ dist/
 package_root/
 package_root_rpm/
 *.AppDir/
+*.deb
+*.rpm
 
 # Editor configs
 .vscode/
